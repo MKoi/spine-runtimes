@@ -73,9 +73,9 @@ namespace Spine {
 
 			String name = "spineboy"; // "goblins";
 
-			Atlas atlas = new Atlas("data/" + name + ".atlas", new XnaTextureLoader(GraphicsDevice));
+			Atlas atlas = new Atlas("Content/" + name + ".atlas", new XnaTextureLoader(GraphicsDevice));
 			SkeletonJson json = new SkeletonJson(atlas);
-			skeleton = new Skeleton(json.ReadSkeletonData("data/" + name + ".json"));
+			skeleton = new Skeleton(json.ReadSkeletonData("Content/" + name + ".json"));
 			if (name == "goblins") skeleton.SetSkin("goblingirl");
 			skeleton.SetSlotsToSetupPose(); // Without this the skin attachments won't be attached. See SetSkin.
 
@@ -95,7 +95,7 @@ namespace Spine {
 				state.Complete += new EventHandler<CompleteArgs>(Complete);
 				state.Event += new EventHandler<EventTriggeredArgs>(Event);
 
-				state.SetAnimation(0, "drawOrder", true);
+                state.SetAnimation(0, "walk", true); // drawOrder
 			} else {
 				state.SetAnimation(0, "walk", false);
 				TrackEntry entry = state.AddAnimation(0, "jump", false, 0);
