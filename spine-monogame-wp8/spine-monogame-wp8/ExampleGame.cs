@@ -33,6 +33,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -69,6 +70,7 @@ namespace Spine {
 		}
 
 		protected override void LoadContent () {
+            TouchPanel.EnabledGestures = GestureType.None;
 			skeletonRenderer = new SkeletonRenderer(GraphicsDevice);
 			skeletonRenderer.PremultipliedAlpha = true;
 
@@ -142,16 +144,24 @@ namespace Spine {
 			skeletonRenderer.End();
 
 			bounds.Update(skeleton, true);
-			MouseState mouse = Mouse.GetState();
+            TouchCollection touchCollection = TouchPanel.GetState();
+            TouchLocation tl = touchCollection.FirstOrDefault();
+            
+                
 			headSlot.G = 1;
 			headSlot.B = 1;
-			if (bounds.AabbContainsPoint(mouse.X, mouse.Y)) {
-				BoundingBoxAttachment hit = bounds.ContainsPoint(mouse.X, mouse.Y);
-				if (hit != null) {
-					headSlot.G = 0;
-					headSlot.B = 0;
-				}
-			}
+            if (tl.State == TouchLocationState.Pressed || tl.State == TouchLocationState.Moved)
+            {
+                if (bounds.AabbContainsPoint(tl.Position.X, tl.Position.Y))
+                {
+                    BoundingBoxAttachment hit = bounds.ContainsPoint(tl.Position.X, tl.Position.Y);
+                    if (hit != null)
+                    {
+                        headSlot.G = 0;
+                        headSlot.B = 0;
+                    }
+                }
+            }
 
 			base.Draw(gameTime);
 		}
