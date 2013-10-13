@@ -47,6 +47,7 @@ import spine.animation.TranslateTimeline;
 import spine.attachments.Attachment;
 import spine.attachments.AttachmentLoader;
 import spine.attachments.AttachmentType;
+import spine.attachments.BoundingBoxAttachment;
 import spine.attachments.RegionAttachment;
 
 public class SkeletonJson {
@@ -181,6 +182,10 @@ public class SkeletonJson {
 			regionAttachment.width = (map["width"] || 32) * scale;
 			regionAttachment.height = (map["height"] || 32) * scale;
 			regionAttachment.updateOffset();
+		} else if (attachment is BoundingBoxAttachment) {
+			var box:BoundingBoxAttachment = attachment as BoundingBoxAttachment;
+			for each (var point:Number in map["vertices"])
+				box.vertices.push(point * scale);
 		}
 
 		return attachment;
@@ -282,7 +287,7 @@ public class SkeletonJson {
 
 		var eventsMap:Object = map["events"];
 		if (eventsMap) {
-			var timeline4:EventTimeline = new EventTimeline(eventsMap.Count);
+			var timeline4:EventTimeline = new EventTimeline(eventsMap.length);
 			var frameIndex4:int = 0;
 			for each (var eventMap:Object in eventsMap) {
 				var eventData:EventData = skeletonData.findEvent(eventMap["name"]);
@@ -294,7 +299,7 @@ public class SkeletonJson {
 				timeline4.setFrame(frameIndex4++, eventMap["time"], event);
 			}
 			timelines.push(timeline4);
-			duration = Math.max(duration, timeline.frames[timeline4.frameCount - 1]);
+			duration = Math.max(duration, timeline4.frames[timeline4.frameCount - 1]);
 		}
 
 		var drawOrderValues:Object = map["draworder"];
