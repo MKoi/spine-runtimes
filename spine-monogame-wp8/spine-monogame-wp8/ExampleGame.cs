@@ -40,6 +40,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 using Spine;
 
@@ -103,9 +104,14 @@ namespace Spine {
 				state.AddAnimation(0, "walk", true, 0);
 			}
 
-			skeleton.X = 320;
-			skeleton.Y = 440;
+            
+            skeleton.X = graphics.GraphicsDevice.Viewport.Width / 2; //320;
+            skeleton.Y = graphics.GraphicsDevice.Viewport.Height / 2; //440;
 			skeleton.UpdateWorldTransform();
+            bounds.Update(skeleton, true);
+            float height = bounds.MaxY - bounds.MinY;
+            skeleton.Y += height;
+            skeleton.UpdateWorldTransform();
 
 			headSlot = skeleton.FindSlot("head");
 		}
@@ -130,6 +136,7 @@ namespace Spine {
 			state.Update(gameTime.ElapsedGameTime.Milliseconds / 1000f);
 			state.Apply(skeleton);
 			skeleton.UpdateWorldTransform();
+            skeleton.FlipX = true;
 			skeletonRenderer.Begin();
 			skeletonRenderer.Draw(skeleton);
 			skeletonRenderer.End();
