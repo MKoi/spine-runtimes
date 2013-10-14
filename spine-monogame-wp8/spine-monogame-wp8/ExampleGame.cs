@@ -53,6 +53,7 @@ namespace Spine {
 		Slot headSlot;
 		AnimationState state;
 		SkeletonBounds bounds = new SkeletonBounds();
+        Camera2D camera;
 
 		public Example () {
 			IsMouseVisible = true;
@@ -65,7 +66,7 @@ namespace Spine {
 
 		protected override void Initialize () {
 			// TODO: Add your initialization logic here
-
+            ConvertUnits.SetDisplayUnitToSimUnitRatio(1.0f);
 			base.Initialize();
 		}
 
@@ -73,7 +74,9 @@ namespace Spine {
             TouchPanel.EnabledGestures = GestureType.None;
 			skeletonRenderer = new SkeletonRenderer(GraphicsDevice);
 			skeletonRenderer.PremultipliedAlpha = true;
-
+            camera = new Camera2D(GraphicsDevice);
+            Vector2 screenCenter = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
+            camera.Position = screenCenter;
 			String name = "spineboy"; // "goblins";
 
 			Atlas atlas = new Atlas("Content/" + name + ".atlas", new XnaTextureLoader(GraphicsDevice));
@@ -107,8 +110,8 @@ namespace Spine {
 			}
 
             
-            skeleton.X = graphics.GraphicsDevice.Viewport.Width / 2; //320;
-            skeleton.Y = graphics.GraphicsDevice.Viewport.Height / 2; //440;
+            skeleton.X = screenCenter.X; //320;
+            skeleton.Y = screenCenter.Y; //440;
 			skeleton.UpdateWorldTransform();
             bounds.Update(skeleton, true);
             float height = bounds.MaxY - bounds.MinY;
@@ -128,7 +131,7 @@ namespace Spine {
 				this.Exit();
 
 			// TODO: Add your update logic here
-
+            camera.Update(gameTime);
 			base.Update(gameTime);
 		}
 
@@ -139,7 +142,7 @@ namespace Spine {
 			state.Apply(skeleton);
 			skeleton.UpdateWorldTransform();
             skeleton.FlipX = true;
-			skeletonRenderer.Begin();
+			skeletonRenderer.Begin(camera.View);
 			skeletonRenderer.Draw(skeleton);
 			skeletonRenderer.End();
 

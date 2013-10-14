@@ -69,6 +69,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Camera2D.cs" />
+    <Compile Include="ConvertUnits.cs" />
     <Compile Include="ExampleGame.cs" />
     <Compile Include="spine-csharp\Attachments\AtlasAttachmentLoader.cs" />
     <Compile Include="spine-csharp\Attachments\Attachment.cs" />
