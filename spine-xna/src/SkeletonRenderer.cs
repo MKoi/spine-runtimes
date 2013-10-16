@@ -56,6 +56,7 @@ namespace Spine {
 			effect = new BasicEffect(device);
 			effect.World = Matrix.Identity;
 			effect.View = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
+            effect.Projection = Matrix.CreateOrthographicOffCenter(0, device.Viewport.Width, device.Viewport.Height, 0, 1, 0);
 			effect.TextureEnabled = true;
 			effect.VertexColorEnabled = true;
 
@@ -66,13 +67,32 @@ namespace Spine {
 		}
 
 		public void Begin () {
-			defaultBlendState = premultipliedAlpha ? BlendState.AlphaBlend : BlendState.NonPremultiplied;
+            defaultBlendState = premultipliedAlpha ? BlendState.AlphaBlend : BlendState.NonPremultiplied;
 
-			device.RasterizerState = rasterizerState;
-			device.BlendState = defaultBlendState;
-
-			effect.Projection = Matrix.CreateOrthographicOffCenter(0, device.Viewport.Width, device.Viewport.Height, 0, 1, 0);
+            device.RasterizerState = rasterizerState;
+            device.BlendState = defaultBlendState;	
 		}
+
+        public void Begin(ref Matrix view)
+        {
+            defaultBlendState = premultipliedAlpha ? BlendState.AlphaBlend : BlendState.NonPremultiplied;
+
+            device.RasterizerState = rasterizerState;
+            device.BlendState = defaultBlendState;
+
+            effect.View = view;
+        }
+
+        public void Begin(ref Matrix view, ref Matrix projection)
+        {
+            defaultBlendState = premultipliedAlpha ? BlendState.AlphaBlend : BlendState.NonPremultiplied;
+
+            device.RasterizerState = rasterizerState;
+            device.BlendState = defaultBlendState;
+
+            effect.Projection = projection;
+            effect.View = view;
+        }
 
 		public void End () {
 			foreach (EffectPass pass in effect.CurrentTechnique.Passes) {

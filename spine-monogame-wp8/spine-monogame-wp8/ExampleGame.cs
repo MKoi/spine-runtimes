@@ -51,9 +51,14 @@ namespace SpineExample {
 		
         SkeletonRenderer skeletonRenderer;
 		Skeleton skeleton;
+        Skeleton skeleton2;
 		Slot headSlot;
 		AnimationState state;
-		SkeletonBounds bounds = new SkeletonBounds();
+        AnimationState state2;
+        SkeletonBounds bounds;
+        SkeletonBounds bounds2;
+
+       
         Camera2D camera;
         
 		public Example () {
@@ -79,16 +84,18 @@ namespace SpineExample {
             camera = new Camera2D(GraphicsDevice);
             Vector2 screenCenter = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
             camera.Position = screenCenter;
+            Vector2 pos1 = new Vector2(graphics.GraphicsDevice.Viewport.Width / 3, graphics.GraphicsDevice.Viewport.Height * 2 / 3);
 			String name = "spineboy"; // "goblins";
-
-			Atlas atlas = new Atlas("Content/" + name + ".atlas", new XnaTextureLoader(GraphicsDevice));
-			SkeletonJson json = new SkeletonJson(atlas);
-			skeleton = new Skeleton(json.ReadSkeletonData("Content/" + name + ".json"));
-			if (name == "goblins") skeleton.SetSkin("goblingirl");
-			skeleton.SetSlotsToSetupPose(); // Without this the skin attachments won't be attached. See SetSkin.
+            AnimationStateData stateData;
+            LoadFigure(name, pos1, out skeleton, out stateData, out bounds);
+//			Atlas atlas = new Atlas("Content/" + name + ".atlas", new XnaTextureLoader(GraphicsDevice));
+//			SkeletonJson json = new SkeletonJson(atlas);
+//			skeleton = new Skeleton(json.ReadSkeletonData("Content/" + name + ".json"));
+//			if (name == "goblins") skeleton.SetSkin("goblingirl");
+//			skeleton.SetSlotsToSetupPose(); // Without this the skin attachments won't be attached. See SetSkin.
 
 			// Define mixing between animations.
-			AnimationStateData stateData = new AnimationStateData(skeleton.Data);
+//			AnimationStateData stateData = new AnimationStateData(skeleton.Data);
 			if (name == "spineboy") {
 				stateData.SetMix("walk", "jump", 0.2f);
 				stateData.SetMix("jump", "walk", 0.4f);
@@ -111,7 +118,25 @@ namespace SpineExample {
 				state.AddAnimation(0, "walk", true, 0);
 			}
 
-            
+            name = "goblins"; // ;
+            AnimationStateData stateData2;
+            Vector2 pos2 = new Vector2(graphics.GraphicsDevice.Viewport.Width * 2 / 3, graphics.GraphicsDevice.Viewport.Height * 2 / 3);
+            LoadFigure(name, pos2, out skeleton2, out stateData2, out bounds2);
+            skeleton2.SetSkin("goblingirl");
+            skeleton2.SetSlotsToSetupPose();
+
+            state2 = new AnimationState(stateData2);
+
+			// Event handling for all animations.
+			state2.Start += new EventHandler<StartEndArgs>(Start);
+			state2.End += new EventHandler<StartEndArgs>(End);
+			state2.Complete += new EventHandler<CompleteArgs>(Complete);
+			state2.Event += new EventHandler<EventTriggeredArgs>(Event);
+
+            state2.SetAnimation(0, "walk", true); // drawOrder
+
+
+            /*
             skeleton.X = screenCenter.X; //320;
             skeleton.Y = screenCenter.Y; //440;
 			skeleton.UpdateWorldTransform();
@@ -119,7 +144,7 @@ namespace SpineExample {
             float height = bounds.MaxY - bounds.MinY;
             skeleton.Y += height;
             skeleton.UpdateWorldTransform();
-
+            */ 
 			headSlot = skeleton.FindSlot("head");
              
 		}
@@ -145,9 +170,15 @@ namespace SpineExample {
 			state.Update(gameTime.ElapsedGameTime.Milliseconds / 1000f);
 			state.Apply(skeleton);
 			skeleton.UpdateWorldTransform();
+
+            state2.Update(gameTime.ElapsedGameTime.Milliseconds / 1000f);
+            state2.Apply(skeleton2);
+            skeleton2.UpdateWorldTransform();
+
             skeleton.FlipX = true;
-            skeletonRenderer.Begin(); // (camera.View);
+            skeletonRenderer.Begin(ref camera.View); // (camera.View);
 			skeletonRenderer.Draw(skeleton);
+            skeletonRenderer.Draw(skeleton2);
 			skeletonRenderer.End();
 
 			bounds.Update(skeleton, true);
@@ -188,6 +219,22 @@ namespace SpineExample {
 		public void Event (object sender, EventTriggeredArgs e) {
 			Console.WriteLine(e.TrackIndex + " " + state.GetCurrent(e.TrackIndex) + ": event " + e.Event);
 		}
-         
+
+        private void LoadFigure(String name, Vector2 pos, out Skeleton skel, out AnimationStateData animationData, out SkeletonBounds sbounds)
+        {
+            Atlas atlas = new Atlas("Content/" + name + ".atlas", new XnaTextureLoader(GraphicsDevice));
+            SkeletonJson json = new SkeletonJson(atlas);
+            skel = new Skeleton(json.ReadSkeletonData("Content/" + name + ".json"));
+            animationData = new AnimationStateData(skel.Data);
+
+            skel.X = pos.X; //320;
+            skel.Y = pos.Y; //440;
+ //           skel.UpdateWorldTransform();
+            sbounds = new SkeletonBounds();
+ //           sbounds.Update(skel, true);
+ //           float height = sbounds.MaxY - sbounds.MinY;
+ //           skel.Y += height;
+ //           skel.UpdateWorldTransform();
+        }
 	}
 }
