@@ -6,8 +6,8 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("spine-monogame-wp8")]
-[assembly: AssemblyProduct("spine-monogame-wp8")]
+[assembly: AssemblyTitle("spine_example_wp8")]
+[assembly: AssemblyProduct("spine_example_wp8")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]

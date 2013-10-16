@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Spine
+namespace SpineExample
 {
     public class Camera2D
     {

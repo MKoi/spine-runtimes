@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Phone
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spine-monogame-wp8", "spine-monogame-wp8\spine-monogame-wp8.csproj", "{02257D29-5D73-45E2-8706-E47143AB9CFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spine-example-wp8", "spine-monogame-wp8\spine-example-wp8.csproj", "{02257D29-5D73-45E2-8706-E47143AB9CFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

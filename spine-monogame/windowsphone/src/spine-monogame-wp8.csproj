@@ -5,15 +5,17 @@
     <Platform Condition=" '$(Platform)' == '' ">ARM</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{02257D29-5D73-45E2-8706-E47143AB9CFC}</ProjectGuid>
+    <ProjectGuid>{6D3C6E91-321B-4ABD-BADD-5BDF2705F0B8}</ProjectGuid>
+	<ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>spine_monogame_wp8</RootNamespace>
-    <AssemblyName>spine-monogame-wp8</AssemblyName>
+    <RootNamespace>SpineWP8</RootNamespace>
+    <AssemblyName>SpineWP8</AssemblyName>
     <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
-    <SupportedCultures>
-    </SupportedCultures>
+	<SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
   </PropertyGroup>

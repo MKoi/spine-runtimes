@@ -5,7 +5,7 @@
 
 using Microsoft.Xna.Framework;
 
-namespace Spine
+namespace SpineExample
 {
     /// <summary>
     /// Convert units between display and simulation units.

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace spine_monogame_wp8
+namespace SpineExample
 {
     /// <summary>
     /// This is the main type for your game

@@ -1,6 +1,6 @@
-﻿using spine_monogame_wp8.Resources;
+﻿using spine_example_wp8.Resources;
 
-namespace spine_monogame_wp8
+namespace spine_example_wp8
 {
     /// <summary>
     /// Provides access to string resources.

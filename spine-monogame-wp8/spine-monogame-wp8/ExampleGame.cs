@@ -45,16 +45,17 @@ using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 using Spine;
 
-namespace Spine {
+namespace SpineExample {
 	public class Example : Microsoft.Xna.Framework.Game {
 		GraphicsDeviceManager graphics;
-		SkeletonRenderer skeletonRenderer;
+		
+        SkeletonRenderer skeletonRenderer;
 		Skeleton skeleton;
 		Slot headSlot;
 		AnimationState state;
 		SkeletonBounds bounds = new SkeletonBounds();
         Camera2D camera;
-
+        
 		public Example () {
 			IsMouseVisible = true;
 
@@ -71,6 +72,7 @@ namespace Spine {
 		}
 
 		protected override void LoadContent () {
+            
             TouchPanel.EnabledGestures = GestureType.None;
 			skeletonRenderer = new SkeletonRenderer(GraphicsDevice);
 			skeletonRenderer.PremultipliedAlpha = true;
@@ -119,6 +121,7 @@ namespace Spine {
             skeleton.UpdateWorldTransform();
 
 			headSlot = skeleton.FindSlot("head");
+             
 		}
 
 		protected override void UnloadContent () {
@@ -129,20 +132,21 @@ namespace Spine {
 			// Allows the game to exit
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
 				this.Exit();
-
+            
 			// TODO: Add your update logic here
             camera.Update(gameTime);
 			base.Update(gameTime);
+             
 		}
 
 		protected override void Draw (GameTime gameTime) {
 			GraphicsDevice.Clear(Color.Black);
-
+            
 			state.Update(gameTime.ElapsedGameTime.Milliseconds / 1000f);
 			state.Apply(skeleton);
 			skeleton.UpdateWorldTransform();
             skeleton.FlipX = true;
-			skeletonRenderer.Begin(camera.View);
+            skeletonRenderer.Begin(); // (camera.View);
 			skeletonRenderer.Draw(skeleton);
 			skeletonRenderer.End();
 
@@ -165,10 +169,10 @@ namespace Spine {
                     }
                 }
             }
-
+            
 			base.Draw(gameTime);
 		}
-
+        
 		public void Start (object sender, StartEndArgs e) {
 			Console.WriteLine(e.TrackIndex + " " + state.GetCurrent(e.TrackIndex) + ": start");
 		}
@@ -184,5 +188,6 @@ namespace Spine {
 		public void Event (object sender, EventTriggeredArgs e) {
 			Console.WriteLine(e.TrackIndex + " " + state.GetCurrent(e.TrackIndex) + ": event " + e.Event);
 		}
+         
 	}
 }

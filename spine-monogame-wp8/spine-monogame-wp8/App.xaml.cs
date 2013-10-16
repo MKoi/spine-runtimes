@@ -6,9 +6,9 @@ using System.Windows.Markup;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using spine_monogame_wp8.Resources;
+using spine_example_wp8.Resources;
 
-namespace spine_monogame_wp8
+namespace SpineExample
 {
     public partial class App : Application
     {

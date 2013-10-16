@@ -9,10 +9,11 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Xna.Framework;
 using MonoGame.Framework.WindowsPhone;
-using spine_monogame_wp8.Resources;
-using Spine;
+//using spine_example_wp8.Resources;
+//using SpineExample.Resources;
+//using Spine;
 
-namespace spine_monogame_wp8
+namespace SpineExample
 {
     public partial class GamePage : PhoneApplicationPage
     {
