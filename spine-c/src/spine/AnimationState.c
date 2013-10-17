@@ -266,8 +266,8 @@ spTrackEntry* spAnimationState_addAnimation (spAnimationState* self, int trackIn
 
 	if (delay <= 0) {
 		if (last) {
-			delay += last->endTime;
-			if (animation) delay -= spAnimationStateData_getMix(self->data, last->animation, animation);
+			if (last->time < last->endTime) delay += last->endTime - last->time;
+			delay -= spAnimationStateData_getMix(self->data, last->animation, animation);
 		} else
 			delay = 0;
 	}
